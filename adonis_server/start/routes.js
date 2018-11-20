@@ -27,3 +27,10 @@ Route.group(() => {
 })
 .prefix('/api/auth')
 
+//setting up project route
+Route.group(() => {
+  Route.get('/projects', 'ProjectController.index').middleware(['auth'])
+  Route.post('/projects', 'ProjectController.createProject').middleware(['auth'])
+})
+.prefix('/api')
+
