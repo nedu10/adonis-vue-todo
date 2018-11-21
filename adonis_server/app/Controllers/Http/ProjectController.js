@@ -20,7 +20,7 @@ class ProjectController {
         const authUser = await auth.getUser()
         console.log(authUser.id)
         // const userProject = await authUser.
-        const userProject = await Project.where('user_id', authUser.id)
+        const userProject = await Project.where('user_id', authUser.id).select('*')
         return response.status(200).json({
             Status: 'Success',
             Message: 'Successfully got all project',
@@ -49,13 +49,34 @@ class ProjectController {
             data: saveNewProject
         })
     }
+    async updateProject( {auth, params, response, request} ) {
+        const authUser = await auth.getUser()
+        const { project_id } = params
+        const {title, description} = request.body
+        console.log(title+' thyuudfi '+description)
+        const project = await Projects.find(project_id)
+        AuthorizationServices.verifyAuthorizationPermission(project, authUser)
+        console.log('see me here')
+        const newValue = {
+            title: (title) ? (title) : project.title,
+            description: (description) ? description : project.description
+        }
+        console.log(newValue)
+        const updatedProject = await Project.where("id", project_id).update(newValue)
+        console.log('see me here >> ',updatedProject)
+        return {
+            Status: 'Success',
+            Message: 'Successfully updated project',
+            data: updatedProject
+        }
+    }
     async deleteProject ({auth, params, response}) {
         const authUser = await auth.getUser()
         const {project_id} = params
         const project = await Projects.find(project_id)
         AuthorizationServices.verifyAuthorizationPermission(project, authUser)
         const deleteProject = await project.delete()
-        return response.status(204).json({
+        return response.status(200).json({
             Status: 'Success',
             Message: 'Successfully deleted project',
             data: deleteProject
