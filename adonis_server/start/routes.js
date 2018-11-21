@@ -29,8 +29,10 @@ Route.group(() => {
 
 //setting up project route
 Route.group(() => {
-  Route.get('/projects', 'ProjectController.index').middleware(['auth'])
-  Route.post('/projects', 'ProjectController.createProject').middleware(['auth'])
+  Route.get('/', 'ProjectController.index').middleware(['auth'])
+  Route.get('/created_project', 'ProjectController.getCreatedProject').middleware(['auth'])
+  Route.post('/', 'ProjectController.createProject').middleware(['auth'])
+  Route.delete('/:project_id', 'ProjectController.deleteProject').middleware(['auth'])
 })
-.prefix('/api')
+.prefix('/api/projects')
 
