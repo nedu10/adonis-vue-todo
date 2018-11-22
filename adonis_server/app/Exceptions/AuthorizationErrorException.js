@@ -11,7 +11,7 @@ class AuthorizationErrorException extends LogicalException {
     
     return response.status(401).json({
       status: "Failed",
-      message: "You are not authorize to delete this resource"
+      message: "You are not authorize to modify this resource"
     })
   }
 }

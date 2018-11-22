@@ -9,7 +9,7 @@ const AuthorizationServices = use('App/Services/AuthorizationServices')
 
 class ProjectController {
     async index ({ response}) {
-        const userProject = await Projects.all()
+        const userProject = await Projects.query().with('tasks').fetch()
         return response.status(200).json({
             Status: 'Success',
             Message: 'Successfully got all project',
@@ -20,7 +20,7 @@ class ProjectController {
         const authUser = await auth.getUser()
         console.log(authUser.id)
         // const userProject = await authUser.
-        const userProject = await Project.where('user_id', authUser.id).select('*')
+        const userProject = await Projects.query().where('user_id', authUser.id).fetch()
         return response.status(200).json({
             Status: 'Success',
             Message: 'Successfully got all project',

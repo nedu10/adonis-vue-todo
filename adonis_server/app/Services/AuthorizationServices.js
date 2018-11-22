@@ -3,9 +3,7 @@ const NotFoundError = use('App/Exceptions/NotFoundErrorException')
 
 class AuthorizationServices {
     verifyAuthorizationPermission (resource, user) {
-        console.log(resource)
         if (!resource) {
-            console.log('am here')
             throw new NotFoundError() 
             // {
             //     status: "Failed",
